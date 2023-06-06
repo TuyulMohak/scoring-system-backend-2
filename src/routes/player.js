@@ -3,15 +3,13 @@ const router = express.Router()
 
 import authenticateAdmin from '../middlewares/authenticateAdmin.js'
 import { check, validationResult } from 'express-validator'
-import { getPlayers } from '../services/player.js'
+import { getPlayers, getOnePlayer, postOnePlayer } from '../services/player.js'
+import { errorObj } from '../services/error.js'
 
-const errorObj = (err) => {
-  return { status:err.status, message:err.message, completeError:err }
-}
-
-const validateAccount = [
-  check('username').isLength( { min: 4, max: 100 } ).withMessage('username between 5 character and 100 character'),
-  check('password').isLength( { min: 4, max: 100 } ).withMessage('password between 8 character and 100 character')
+const validatePlayerPostReq = [
+  check('playerName').isLength( { min: 4, max: 100 } ).withMessage('username between 5 character and 100 character'),
+  check('name').isLength( { min: 4, max: 100 } ).withMessage('password between 8 character and 100 character'),
+  check('subdivisionId').isLength( { min: 4, max: 100 }).withMessage('password between 8 character and 100 character')
 ]
 
 const checkErrorFromValidate = (validationRes) => {
@@ -34,23 +32,36 @@ router.get('/', authenticateAdmin, async (req, res) => {
   }
 })
 
-// get player
-// post player
-// delete player
-// update player
-
-
-router.post('/login', validateAccount, async (req, res) => {
-  const { username, password } = req.body
+//2. get a player
+router.get('/:id', authenticateAdmin, async (req, res) => {
+  const playerId = req.params.id
   const validationRes = validationResult(req)
   try {
     checkErrorFromValidate(validationRes)
-    const loginResult = await loginAccount(username, password)
-    res.status(loginResult.status).json(loginResult)
+    const player = await getOnePlayer(playerId)
+    res.status(200).json(player)
   } catch (err) {
     res.status(err.status || 500).json(errorObj(err))
   }
 })
+
+// post player
+router.post('/', validatePlayerPostReq ,authenticateAdmin, async (req, res) => {
+  const validationRes = validationResult(req)
+  const { playerName, name, subdivisionId } = req.body
+  try {
+    checkErrorFromValidate(validationRes)
+    const playerPosted = await postOnePlayer(playerName, name, subdivisionId)
+    res.status(200).json(playerPosted)
+  } catch (err) {
+    res.status(err.status || 500).json(errorObj(err))
+  }
+})
+
+// delete player
+// update player
+
+
 
 // used only for testing authenticateAccount middleware 
 router.get('/secret', authenticateAdmin, (req, res) => {

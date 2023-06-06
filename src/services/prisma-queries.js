@@ -9,7 +9,7 @@ async function pFindAccountByUsername(username) {
 	})
 }
 
-async function pfindManySubdivisions() {
+async function pFindManySubdivisions() {
 	return await prisma.subdivision.findMany()
 }
 
@@ -17,10 +17,31 @@ async function pFindManyPlayers() {
 	return await prisma.player.findMany()
 }
 
+async function pFindAPlayer(id) {
+	return await prisma.player.findFirst({
+		where: {
+			id: id
+		}
+	})
+}
+
+async function pCreateOnePlayer(playerName, name, subdivisionId) {
+	return await prisma.player.create({
+		data: {
+			playerName, name, 
+			subdivision: {
+				connect: {
+					id: subdivisionId
+				}
+			}
+		}
+	})	
+}
+
 
 
 export { 
 	pFindAccountByUsername, 
-	pFindManyPlayers,
-	pfindManySubdivisions
+	pFindManyPlayers, pFindAPlayer, pCreateOnePlayer,
+	pFindManySubdivisions
 }

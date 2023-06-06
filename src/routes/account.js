@@ -4,10 +4,8 @@ const router = express.Router()
 import authenticateAccount from '../middlewares/authenticateAccount.js'
 import { check, validationResult } from 'express-validator'
 import { loginAccount } from '../services/account.js'
+import { errorObj } from '../services/error.js'
 
-const errorObj = (err) => {
-  return { status:err.status, message:err.message, completeError:err }
-}
 
 const validateAccount = [
   check('username').isLength( { min: 4, max: 100 } ).withMessage('username between 5 character and 100 character'),
