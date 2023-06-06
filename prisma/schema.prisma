@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  NEOTER
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  username String @unique
+  password String
+  role Role @default(NEOTER)
+}
+
+model Division {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  subdivisions Subdivision[]
+}
+
+model Subdivision {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  divisionId String @db.ObjectId 
+  division Division @relation(fields: [divisionId], references: [id])
+  players Player[]
+}
+
+model Player {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  playerName String @unique
+  name String
+  isActive Boolean @default(true)
+  subdivisionId String @db.ObjectId
+  subdivision Subdivision @relation(fields: [subdivisionId], references: [id]) 
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  playerName String @unique
+  name String
+  isActive Boolean @default(true)
+}
