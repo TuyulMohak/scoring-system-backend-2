@@ -14,13 +14,13 @@ async function loginAccount (username, password) {
 		if(accountRow === null) {
 			throw { status: 404, message: 'User not found' }
 		}
-
+		
 		// comparing the password on database and sent by the user
 		const result = await bcrypt.compare(password, accountRow.password)
 		if (!result) {
 			throw { status: 400, message: 'Wrong login credentials' }
 		}
-
+		
 		// creating accesstoken
 		const accessToken = generateHourToken(accountRow)
 		return { status:200, message: 'Logged in', token: accessToken, accountRow }

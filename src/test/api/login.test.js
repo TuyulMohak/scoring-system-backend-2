@@ -8,7 +8,7 @@ const correctAdminAccount = { username:process.env.ADMIN_USERNAME, password:proc
 const correctNeoterAccount = { username:process.env.NEOTER_USERNAME , password:process.env.NEOTER_USERNAME }
 const notRegisteredAccount = { username:'nobody', password: 'wrongpassword' }
 const badFormatAccount = { username: 'fu', password: 'mu' } //username & password too short
-const CorrectUsernameWrongPasswordAccount = { username: adminAccount.username, password:'wrongpassword' }
+const CorrectUsernameWrongPasswordAccount = { username: process.env.ADMIN_USERNAME, password:'wrongpassword' }
 
 describe('Login', () => {
 	test.concurrent('Registered Admin Must return status 200 and having ADMIN role token ',async () => {
@@ -45,5 +45,4 @@ describe('Login', () => {
 		const res = await request(app).post('/account/login').send(CorrectUsernameWrongPasswordAccount)
 		expect(res.status).toBe(400)
 	}, 30000)
-
 })

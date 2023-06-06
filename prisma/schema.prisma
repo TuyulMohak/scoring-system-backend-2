@@ -33,7 +33,7 @@ model Subdivision {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
   divisionId String @db.ObjectId 
-  division Division @relation(fields: [divisionId], references: [id])
+  division Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
   players Player[]
 }
 
@@ -43,7 +43,7 @@ model Player {
   name String
   isActive Boolean @default(true)
   subdivisionId String @db.ObjectId
-  subdivision Subdivision @relation(fields: [subdivisionId], references: [id]) 
+  subdivision Subdivision @relation(fields: [subdivisionId], references: [id], onDelete: Cascade) 
 }
 
 model User {
