@@ -4,6 +4,7 @@ async function authenticateAccount (req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   try {
+    console.log("STARTURO")
     if (token === null) {
       throw { status: 401, messsage: "You don't have any token" }
     }

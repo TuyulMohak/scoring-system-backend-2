@@ -1,8 +1,8 @@
-import { pfindManySubdivisions } from '../services/prisma-queries.js'
+import { pFindManySubdivisions } from '../services/prisma-queries.js'
 
 
 const getPlayers = async () => {
-	const subdivisions = await pfindManySubdivisions()
+	const subdivisions = await pFindManySubdivisions()
 	const players = []
 	for(let i = 0; i < subdivisions.length ;i++){
 		players.push({

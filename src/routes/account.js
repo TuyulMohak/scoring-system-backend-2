@@ -2,6 +2,7 @@ import express from 'express'
 const router = express.Router()
 
 import authenticateAccount from '../middlewares/authenticateAccount.js'
+import authenticateAdmin from '../middlewares/authenticateAdmin.js'
 import { check, validationResult } from 'express-validator'
 import { loginAccount } from '../services/account.js'
 import { errorObj } from '../services/error.js'
@@ -33,9 +34,16 @@ router.post('/login', validateAccount, async (req, res) => {
 })
 
 // used only for testing authenticateAccount middleware 
-router.get('/secret', authenticateAccount, (req, res) => {
-  const user = req.user
-  const secretData = ['alpha', 'bruno', 'changshi']
+router.get('/secret-admin', authenticateAdmin, (req, res) => {
+  const account = req.account
+  const secretData = ['admin', 'alpha', 'bruno', 'changshi']
+  res.status(200).json({data:secretData})
+})
+
+// used only for testing authenticateAccount middleware 
+router.get('/secret-neoter', authenticateAccount, (req, res) => {
+  const account = req.account
+  const secretData = ['neoter', 'alpha', 'bruno', 'changshi']
   res.status(200).json({data:secretData})
 })
 
