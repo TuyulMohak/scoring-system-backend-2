@@ -14,13 +14,38 @@ async function pFindManySubdivisions() {
 }
 
 async function pFindManyPlayers() {
-	return await prisma.player.findMany()
+	return await prisma.player.findMany({
+		select: {
+			id: true,
+			playerName: true,
+			name: true,
+			subdivision: {
+				select: {
+					id:true,
+					name:true,
+			        division: true
+			    },
+			}
+		}
+	})
 }
 
-async function pFindAPlayer(id) {
+async function pFindOnePlayer(id) {
 	return await prisma.player.findFirst({
 		where: {
 			id: id
+		},
+		select: {
+			id: true,
+			playerName: true,
+			name: true,
+			subdivision: {
+				select: {
+					id:true,
+					name:true,
+			        division: true
+			    },
+			}
 		}
 	})
 }
@@ -38,10 +63,26 @@ async function pCreateOnePlayer(playerName, name, subdivisionId) {
 	})	
 }
 
+async function pDeleteOnePlayer(id) {
+	return await prisma.player.delete({
+		where: {
+			id: id
+		},
+	})
+}
 
+async function pUpdateOnePlayer(id, data) {
+	return await prisma.player.update({
+		where: {
+			id: id
+		},
+		// only able to accept string name, string playerName, string subDivisionId, bool isActive
+		data: data
+	})
+}
 
 export { 
 	pFindAccountByUsername, 
-	pFindManyPlayers, pFindAPlayer, pCreateOnePlayer,
+	pFindManyPlayers, pFindOnePlayer, pCreateOnePlayer, pDeleteOnePlayer, pUpdateOnePlayer,
 	pFindManySubdivisions
 }

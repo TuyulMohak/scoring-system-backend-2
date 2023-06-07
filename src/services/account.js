@@ -23,7 +23,7 @@ async function loginAccount (username, password) {
 		
 		// creating accesstoken
 		const accessToken = generateHourToken(accountRow)
-		return { status:200, message: 'Logged in', token: accessToken, accountRow }
+		return { status:200, message: 'Logged in', token: accessToken }
 
 	} catch (err) {
 		throw { status: err.status || 500, errors: err, message: err.message }

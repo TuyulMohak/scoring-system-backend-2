@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
-import { pFindManyPlayers, pFindAPlayer, pCreateOnePlayer } from './prisma-queries.js'
+import { pFindManyPlayers, pFindOnePlayer, pCreateOnePlayer, pDeleteOnePlayer, pUpdateOnePlayer } from './prisma-queries.js'
 
 
 async function getPlayers (username, password) {
@@ -13,7 +13,7 @@ async function getPlayers (username, password) {
 
 async function getOnePlayer (id) {
 	try {
-		return await pFindAPlayer(id)
+		return await pFindOnePlayer(id)
 	} catch (err) {
 		throw { status: err.status || 500, errors: err, message: err.message }
 	}
@@ -27,4 +27,20 @@ async function postOnePlayer(playerName, name, subdivisionId) {
 	}
 }
 
-export { getPlayers, getOnePlayer, postOnePlayer }
+async function deleteOnePlayer(playerId) {
+	try {
+		return await pDeleteOnePlayer(playerId)
+	} catch (err) {
+		throw { status: err.status || 500, errors: err, message: err.message }
+	}
+}
+
+async function updateOnePlayer(playerId, data) {
+	try {
+		return await pUpdateOnePlayer(playerId, data)
+	} catch (err) {
+		throw { status: err.status || 500, errors: err, message: err.message }
+	}
+}
+
+export { getPlayers, getOnePlayer, postOnePlayer, deleteOnePlayer, updateOnePlayer }

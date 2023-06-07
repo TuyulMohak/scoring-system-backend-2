@@ -3,7 +3,7 @@ const router = express.Router()
 
 import authenticateAdmin from '../middlewares/authenticateAdmin.js'
 import { check, validationResult } from 'express-validator'
-import { getPlayers, getOnePlayer, postOnePlayer } from '../services/player.js'
+import { getPlayers, getOnePlayer, postOnePlayer, deleteOnePlayer, updateOnePlayer } from '../services/player.js'
 import { errorObj } from '../services/error.js'
 
 const validatePlayerPostReq = [
@@ -20,31 +20,6 @@ const checkErrorFromValidate = (validationRes) => {
   return
 }
 
-//1. get players
-router.get('/', authenticateAdmin, async (req, res) => {
-  const validationRes = validationResult(req)
-  try {
-    checkErrorFromValidate(validationRes)
-    const players = await getPlayers()
-    res.status(200).json(players)
-  } catch (err) {
-    res.status(err.status || 500).json(errorObj(err))
-  }
-})
-
-//2. get a player
-router.get('/:id', authenticateAdmin, async (req, res) => {
-  const playerId = req.params.id
-  const validationRes = validationResult(req)
-  try {
-    checkErrorFromValidate(validationRes)
-    const player = await getOnePlayer(playerId)
-    res.status(200).json(player)
-  } catch (err) {
-    res.status(err.status || 500).json(errorObj(err))
-  }
-})
-
 // post player
 router.post('/', validatePlayerPostReq ,authenticateAdmin, async (req, res) => {
   const validationRes = validationResult(req)
@@ -58,9 +33,59 @@ router.post('/', validatePlayerPostReq ,authenticateAdmin, async (req, res) => {
   }
 })
 
-// delete player
 // update player
+router.patch('/', authenticateAdmin, async (req, res) => {
+  const validationRes = validationResult(req)
+  // data only able to contain string name, string playerName, string subDivisionId, bool isActive
+  const { playerId, data } = req.body
+  console.log(playerId, data)
+  try {
+    checkErrorFromValidate(validationRes)
+    const playerPosted = await updateOnePlayer(playerId, data)
+    res.status(200).json(playerPosted)
+  } catch (err) {
+    res.status(err.status || 500).json(errorObj(err))
+  }
+})
 
+//1. get players
+router.get('/', authenticateAdmin, async (req, res) => {
+  const validationRes = validationResult(req)
+  try {
+    checkErrorFromValidate(validationRes)
+    const players = await getPlayers()
+    res.status(200).json(players)
+  } catch (err) {
+    res.status(err.status || 500).json(errorObj(err))
+  }
+})
+
+
+//2. get one player
+router.get('/:id', authenticateAdmin, async (req, res) => {
+  const playerId = req.params.id
+  const validationRes = validationResult(req)
+  try {
+    checkErrorFromValidate(validationRes)
+    const player = await getOnePlayer(playerId)
+    res.status(200).json(player)
+  } catch (err) {
+    res.status(err.status || 500).json(errorObj(err))
+  }
+})
+
+// delete player
+router.delete('/:id', authenticateAdmin, async (req, res) => {
+  const playerId = req.params.id
+  const validationRes = validationResult(req)
+  try {
+    checkErrorFromValidate(validationRes)
+    const player = await deleteOnePlayer(playerId)
+    res.status(200).json(player)
+  } catch (err) {
+    res.status(err.status || 500).json(errorObj(err))
+  }
+})
 
 
 // used only for testing authenticateAccount middleware 
