@@ -27,7 +27,7 @@ router.post('/', validatePlayerPostReq ,authenticateAdmin, async (req, res) => {
   try {
     checkErrorFromValidate(validationRes)
     const playerPosted = await postOnePlayer(playerName, name, subdivisionId)
-    res.status(200).json(playerPosted)
+    res.status(200).json({ message:"Player Successfully Created", data: playerPosted })
   } catch (err) {
     res.status(err.status || 500).json(errorObj(err))
   }
@@ -41,34 +41,33 @@ router.patch('/', authenticateAdmin, async (req, res) => {
   console.log(playerId, data)
   try {
     checkErrorFromValidate(validationRes)
-    const playerPosted = await updateOnePlayer(playerId, data)
-    res.status(200).json(playerPosted)
+    const playerUpdated = await updateOnePlayer(playerId, data)
+    res.status(200).json({ message:"Player Successfully Updated", data: playerUpdated })
   } catch (err) {
     res.status(err.status || 500).json(errorObj(err))
   }
 })
 
-//1. get players
+//get all players
 router.get('/', authenticateAdmin, async (req, res) => {
   const validationRes = validationResult(req)
   try {
     checkErrorFromValidate(validationRes)
     const players = await getPlayers()
-    res.status(200).json(players)
+    res.status(200).json({ data: players })
   } catch (err) {
     res.status(err.status || 500).json(errorObj(err))
   }
 })
 
-
-//2. get one player
+//get one player
 router.get('/:id', authenticateAdmin, async (req, res) => {
   const playerId = req.params.id
   const validationRes = validationResult(req)
   try {
     checkErrorFromValidate(validationRes)
     const player = await getOnePlayer(playerId)
-    res.status(200).json(player)
+    res.status(200).json({ data: player })
   } catch (err) {
     res.status(err.status || 500).json(errorObj(err))
   }
@@ -81,7 +80,7 @@ router.delete('/:id', authenticateAdmin, async (req, res) => {
   try {
     checkErrorFromValidate(validationRes)
     const player = await deleteOnePlayer(playerId)
-    res.status(200).json(player)
+    res.status(200).json( { message:`Player Successfully Deleted`, data:player })
   } catch (err) {
     res.status(err.status || 500).json(errorObj(err))
   }
