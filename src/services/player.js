@@ -15,6 +15,18 @@ const checkErrorFromValidate = (validationRes) => {
 }
 
 
+async function postOnePlayer(req, res) {
+	const validationRes = validationResult(req)
+	const { playerName, name, subdivisionId } = req.body.data
+	try {
+		checkErrorFromValidate(validationRes)
+		const playerPosted = await pCreateOnePlayer(playerName, name, subdivisionId)
+		res.status(200).json({ message:"Player Successfully Created", data: playerPosted })
+	} catch (err) {
+		res.status(err.status || 500).json(errorObj(err))
+	}
+}
+
 async function getPlayers (req, res) {
 	const validationRes = validationResult(req)
 	try {
@@ -38,18 +50,6 @@ async function getOnePlayer (req, res) {
 	}
 }
 
-async function postOnePlayer(req, res) {
-	const validationRes = validationResult(req)
-	const { playerName, name, subdivisionId } = req.body.data
-	try {
-		checkErrorFromValidate(validationRes)
-		const playerPosted = await pCreateOnePlayer(playerName, name, subdivisionId)
-		res.status(200).json({ message:"Player Successfully Created", data: playerPosted })
-	} catch (err) {
-		res.status(err.status || 500).json(errorObj(err))
-	}
-}
-
 async function deleteOnePlayer(req, res) {
 	const playerId = req.params.id
 	const validationRes = validationResult(req)
@@ -59,11 +59,6 @@ async function deleteOnePlayer(req, res) {
 		res.status(200).json( { message:`Player Successfully Deleted`, data:player })
 	} catch (err) {
 		res.status(err.status || 500).json(errorObj(err))
-	}
-	try {
-		return await (playerId)
-	} catch (err) {
-		throw { status: err.status || 500, errors: err, message: err.message }
 	}
 }
 
