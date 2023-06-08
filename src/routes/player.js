@@ -2,31 +2,31 @@ import express from 'express'
 const router = express.Router()
 
 import authenticateAdmin from '../middlewares/authenticateAdmin.js'
-import { check, validationResult } from 'express-validator'
-import { getPlayers, getOnePlayer, postOnePlayer, deleteOnePlayer, updateOnePlayer } from '../services/player.js'
+import { check } from 'express-validator'
+import service from '../services/player.js'
 
 const validatePlayerPostReq = () => { 
   return [
-  check('data.playerName').isLength( { min: 4, max: 100 } ).withMessage('playername between 5 character and 100 character'),
-  check('data.name').isLength( { min: 4, max: 100 } ).withMessage('name between 5 character and 100 character'),
-  check('data.subdivisionId').isLength( { min: 4, max: 100 }).withMessage('subdivisionId between 5 character and 100 character')
+    check('data.playerName').isLength( { min: 4, max: 100 } ).withMessage('playername between 5 character and 100 character'),
+    check('data.name').isLength( { min: 4, max: 100 } ).withMessage('name between 5 character and 100 character'),
+    check('data.subdivisionId').isLength( { min: 4, max: 100 }).withMessage('subdivisionId between 5 character and 100 character')
   ]
 }
 
-// post player
-router.post('/', validatePlayerPostReq(), authenticateAdmin, postOnePlayer)
+// post one player
+router.post('/', validatePlayerPostReq(), authenticateAdmin, service.postOnePlayer)
 
-// update player
-router.patch('/', authenticateAdmin, updateOnePlayer)
+// update one player
+router.patch('/', authenticateAdmin, service.updateOnePlayer)
 
 //get all players
-router.get('/', authenticateAdmin, getPlayers)
+router.get('/', authenticateAdmin, service.getPlayers)
 
 //get one player
-router.get('/:id', authenticateAdmin, getOnePlayer)
+router.get('/:id', authenticateAdmin, service.getOnePlayer)
 
-// delete player
-router.delete('/:id', authenticateAdmin, deleteOnePlayer)
+// delete one player
+router.delete('/:id', authenticateAdmin, service.deleteOnePlayer)
 
 
 export default router

@@ -15,7 +15,7 @@ const checkErrorFromValidate = (validationRes) => {
 }
 
 
-async function getPlayers (req, res, next) {
+async function getPlayers (req, res) {
 	const validationRes = validationResult(req)
 	try {
 		checkErrorFromValidate(validationRes)
@@ -26,7 +26,7 @@ async function getPlayers (req, res, next) {
 	}
 }
 
-async function getOnePlayer (req, res, next) {
+async function getOnePlayer (req, res) {
 	const playerId = req.params.id
 	const validationRes = validationResult(req)
 	try {
@@ -38,7 +38,7 @@ async function getOnePlayer (req, res, next) {
 	}
 }
 
-async function postOnePlayer(req, res, next) {
+async function postOnePlayer(req, res) {
 	const validationRes = validationResult(req)
 	const { playerName, name, subdivisionId } = req.body.data
 	try {
@@ -50,7 +50,7 @@ async function postOnePlayer(req, res, next) {
 	}
 }
 
-async function deleteOnePlayer(req, res, next) {
+async function deleteOnePlayer(req, res) {
 	const playerId = req.params.id
 	const validationRes = validationResult(req)
 	try {
@@ -67,7 +67,7 @@ async function deleteOnePlayer(req, res, next) {
 	}
 }
 
-async function updateOnePlayer(req, res, next) {
+async function updateOnePlayer(req, res) {
 	const validationRes = validationResult(req)
 	// data only able to contain string name, string playerName, string subDivisionId, bool isActive
 	const { playerId, data } = req.body
@@ -81,4 +81,4 @@ async function updateOnePlayer(req, res, next) {
 	}
 }
 
-export { getPlayers, getOnePlayer, postOnePlayer, deleteOnePlayer, updateOnePlayer }
+export default { getPlayers, getOnePlayer, postOnePlayer, deleteOnePlayer, updateOnePlayer }

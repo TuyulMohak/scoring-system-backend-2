@@ -8,6 +8,7 @@ import { pFindManyPlayers, pFindManySubdivisions } from '../../data/prisma-queri
 const adminToken = jwt.sign({ username:"admin", role:"ADMIN" }, process.env.ACCESS_TOKEN_SECRET)
 const players = await pFindManyPlayers()
 const subdivisions = await pFindManySubdivisions()
+
 const playerToPost = { data: { playerName: 'newGuy', name:'randomTestingDude', subdivisionId:subdivisions[0].id} } //Post a new player 
 const badPlayerToPost = { data: { playerName: 'h', name:'u', subdivisionId:subdivisions[0].id} }
 const playerToUpdate = { playerId:players[0].id, data: { playerName: 'UPDATED Player' } } //update one machine learning player
@@ -24,6 +25,7 @@ describe('Player CRUD', () => {
 
 	test.concurrent('Wrong format of player to post return 400', async () => {
 		const res = await request(app).post('/players').set("authorization", "bearer "+ adminToken).send(badPlayerToPost)
+		
 		expect(res.status).toBe(400)
 	}, 30000)
 
