@@ -15,6 +15,13 @@ enum Role {
   NEOTER
 }
 
+enum RoundType {
+  text
+  number
+  select
+}
+
+
 model Account {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
@@ -39,16 +46,53 @@ model Subdivision {
 
 model Player {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  playerName String @unique
+  playerName String
   name String
-  isActive Boolean @default(true)
   subdivisionId String @db.ObjectId
-  subdivision Subdivision @relation(fields: [subdivisionId], references: [id], onDelete: Cascade) 
+  isActive Boolean @default(true)
+  scores Score[]
+
+  subdivision Subdivision @relation(fields: [subdivisionId], references: [id], onDelete: Cascade)
 }
 
-model User {
+model Event {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  playerName String @unique
-  name String
-  isActive Boolean @default(true)
+  name String @unique
+  desc String
+  sequence Int
+  rounds Round[]
+}
+
+model Round {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String @unique
+  type RoundType @default(text)
+  sequence Int
+  eventId String @db.ObjectId
+  selectOptions SelectOption[]
+  scores Score[]
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+}
+
+model SelectOption {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String 
+  roundId String @db.ObjectId
+  
+  round Round @relation(fields: [roundId], references: [id], onDelete: Cascade)
+} 
+
+model Score {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String 
+  roundId String @db.ObjectId
+  playerId String @db.ObjectId
+  textScore String?
+  numberScore Float? 
+  selectedOptionId String? @db.ObjectId
+
+  round Round @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  player Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
 }
