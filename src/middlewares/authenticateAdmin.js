@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 
-async function authenticateAccount (req, res, next) {
+async function authenticateAdmin (req, res, next) {
   const authHeader = req.headers['authorization']
   const token = authHeader && authHeader.split(' ')[1]
   try {
@@ -19,4 +19,4 @@ async function authenticateAccount (req, res, next) {
   }
 }
 
-export default authenticateAccount
+export default authenticateAdmin

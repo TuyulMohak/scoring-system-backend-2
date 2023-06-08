@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
-import { pFindAccountByUsername } from './prisma-queries.js'
+import { pFindAccountByUsername } from '../data/prisma-queries.js'
 
 function generateHourToken(data) {
 	return jwt.sign(data, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
