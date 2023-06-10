@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
 import jwt from 'jsonwebtoken'
-import { pCreateOneEvent, pGetMaxEventSequence, pUpdateOneEvent, pGetTwoRowBefore, pGetTwoRowAfter, pFindManyEvents, pDeleteOneEvent } from '../data/event-query.js'
+import { pCreateOneEvent, pGetMaxEventSequence, pUpdateOneEvent, pGetTwoRowBefore, pGetTwoRowAfter, pFindManyEvents, pDeleteOneEvent, pGetOneEvent } from '../data/event-query.js'
 
 import { check, validationResult } from 'express-validator'
 import { errorObj } from '../services/error.js'
@@ -45,9 +45,10 @@ async function updateOneEvent (req, res) {
 async function moveUpEvent (req, res) {
 	const validationRes = validationResult(req)
 	const sequence = Number(req.params.sequence)
+	const eventId = req.params.id
 	try {
 		checkErrorFromValidate(validationRes)
-		const twoRowToSwap = await pGetTwoRowBefore(sequence)
+		const twoRowToSwap = await pGetTwoRowBefore(eventId, sequence)
 		if (twoRowToSwap.length === 0) {
 			throw { status:404, message:"No Event Exist on that Sequence Number" }
 		}
@@ -116,4 +117,16 @@ async function deleteOneEvents(req, res) {
 	}
 }
 
-export default { postOneEvent, updateOneEvent, moveUpEvent, moveDownEvent, getEvents, deleteOneEvents }
+async function getOneEvent (req, res) {
+	const eventId = req.params.id
+	const validationRes = validationResult(req)
+	try {
+		checkErrorFromValidate(validationRes)
+		const event = await pGetOneEvent(eventId)
+		res.status(200).json( { data:event })
+	} catch (err) {
+		res.status(err.status || 500).json(errorObj(err))
+	}
+}
+
+export default { postOneEvent, updateOneEvent, moveUpEvent, moveDownEvent, getEvents, deleteOneEvents, getOneEvent }

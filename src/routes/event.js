@@ -22,10 +22,10 @@ router.post('/', authenticateAdmin, service.postOneEvent)
 router.patch('/', authenticateAdmin, service.updateOneEvent)
 
 // event move up
-router.get('/move/up/:sequence', authenticateAdmin, service.moveUpEvent)
+router.get('/move/up/:id/:sequence', authenticateAdmin, service.moveUpEvent)
 
 // event move down
-router.get('/move/down/:sequence', authenticateAdmin, service.moveDownEvent)
+router.get('/move/down/:id/:sequence', authenticateAdmin, service.moveDownEvent)
 
 // get all events
 router.get('/', authenticateAdmin, service.getEvents)
@@ -34,11 +34,9 @@ router.get('/', authenticateAdmin, service.getEvents)
 router.delete('/:id', authenticateAdmin, service.deleteOneEvents)
 
 
-
-
 // get one event (WE'LL THINK MORE ABOUT THIS BEFORE WE IMPLEMENT)
 // I WANT MY EVENT TO RETURN DATA OF list of [ { playerId,rounds:[scores] }, { playerId,rounds:[scores] } ]
-// router.get('/:id', authenticateAdmin, service.getOnePlayer)
+router.get('/:id', authenticateAdmin, service.getOneEvent)
 
 
 

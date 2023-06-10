@@ -23,9 +23,12 @@ async function pUpdateOneEvent(id, data) {
 	})
 }
 
-async function pGetTwoRowBefore (sequenceNum) {
+async function pGetTwoRowBefore (id, sequenceNum) {
 	return await prisma.event.findMany({
 		where: {
+		    {
+		    	id:id
+		    },
 		    sequence: {
 		      lte: sequenceNum,
 		    },
@@ -34,9 +37,12 @@ async function pGetTwoRowBefore (sequenceNum) {
 	})
 }
 
-async function pGetTwoRowAfter (sequenceNum) {
+async function pGetTwoRowAfter (id, sequenceNum) {
 	return await prisma.event.findMany({
 		where: {
+			{
+		    	id:id
+		    },
 		    sequence: {
 		      gte: sequenceNum,
 		    },
@@ -57,6 +63,21 @@ async function pDeleteOneEvent (id) {
 	})
 }
 
+async function pGetOneEvent (id) {
+	return await prisma.event.findFirst({
+		where: {
+			id: id
+		},
+		include: {
+			rounds: {
+				select: {
+					id: true, name: true, type: true, sequence: true, scores: true
+				}
+			}
+		}
+	})
+}
+
 export {
 	pCreateOneEvent,
 	pGetMaxEventSequence,
@@ -65,6 +86,7 @@ export {
 	pGetTwoRowAfter,
 	pFindManyEvents,
 	pDeleteOneEvent,
+	pGetOneEvent
 }
 
 

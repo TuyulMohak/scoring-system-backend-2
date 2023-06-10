@@ -44,6 +44,7 @@ model Subdivision {
   players Player[]
 }
 
+
 model Player {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   playerName String
@@ -86,7 +87,6 @@ model SelectOption {
 
 model Score {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  name String 
   roundId String @db.ObjectId
   playerId String @db.ObjectId
   textScore String?

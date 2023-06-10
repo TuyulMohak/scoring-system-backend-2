@@ -22,7 +22,7 @@ async function main () {
 			await prisma.player.create(player)
 		})
 		console.log('Created Players for testing')
-	
+		console.log('FINISHED')
 	} catch (err) {
 		console.log('seeding failed: ', err.message)
 	}
