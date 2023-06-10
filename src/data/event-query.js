@@ -26,9 +26,7 @@ async function pUpdateOneEvent(id, data) {
 async function pGetTwoRowBefore (id, sequenceNum) {
 	return await prisma.event.findMany({
 		where: {
-		    {
-		    	id:id
-		    },
+		    id:{ equals: id },
 		    sequence: {
 		      lte: sequenceNum,
 		    },
@@ -40,9 +38,7 @@ async function pGetTwoRowBefore (id, sequenceNum) {
 async function pGetTwoRowAfter (id, sequenceNum) {
 	return await prisma.event.findMany({
 		where: {
-			{
-		    	id:id
-		    },
+			id:{ equals: id },
 		    sequence: {
 		      gte: sequenceNum,
 		    },
