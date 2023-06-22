@@ -8,6 +8,8 @@ import { pFindManyPlayers, pFindManySubdivisions } from '../../data/prisma-queri
 const adminToken = jwt.sign({ username:"admin", role:"ADMIN" }, process.env.ACCESS_TOKEN_SECRET)
 const players = await pFindManyPlayers()
 const subdivisions = await pFindManySubdivisions()
+console.log("this is the players:", players)
+
 
 const playerToPost = { data: { playerName: 'newGuy', name:'randomTestingDude', subdivisionId:subdivisions[0].id} } //Post a new player 
 const badPlayerToPost = { data: { playerName: 'h', name:'u', subdivisionId:subdivisions[0].id} }

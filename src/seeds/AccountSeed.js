@@ -18,10 +18,18 @@ async function main () {
 		console.log('Created Divisions and Subdivisions for testing')
 		
 		const players = await getPlayers()
+		// const playerCreated = prisma.player.createMany({data: players})
+		for (let i=0; i < players.length; i++) {
+			await prisma.player.create(players[i])
+		}
 		players.map(async (player) => {
 			await prisma.player.create(player)
 		})
 		console.log('Created Players for testing')
+
+		// create event with rounds + scores for some of the players
+
+
 		console.log('FINISHED')
 	} catch (err) {
 		console.log('seeding failed: ', err.message)

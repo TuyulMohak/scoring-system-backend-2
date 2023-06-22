@@ -22,4 +22,4 @@ const getPlayers = async () => {
 }
 
 
-export { getPlayers}
+export { getPlayers }

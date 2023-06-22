@@ -33,6 +33,8 @@ router.post('/login', validateAccount, async (req, res) => {
   }
 })
 
+
+
 // used only for testing authenticateAccount middleware 
 router.get('/secret-admin', authenticateAdmin, (req, res) => {
   const account = req.account

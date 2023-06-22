@@ -27,9 +27,20 @@ async function postOneRound(req, res) {
 		
 		let roundData = null
 		if(type === 'select') {
-			roundData = { event:{connect:{id:eventId}}, name, type, sequence, selectOptions:{create:selectOptions} }
+			roundData = { 
+				event: { connect:{ id: eventId } }, 
+				name, 
+				type, 
+				sequence, 
+				selectOptions: { create: selectOptions } 
+			}
 		} else {
-			roundData = { event:{connect:{id:eventId}}, name, type, sequence }
+			roundData = { 
+				event: { connect: { id:eventId } }, 
+				name, 
+				type, 
+				sequence 
+			}
 		}
 		const roundPosted = await data.pCreateOneRound(roundData)
 		res.status(200).json({ message:"Round Successfully Created", data: roundPosted })

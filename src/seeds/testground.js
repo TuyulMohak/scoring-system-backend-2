@@ -19,35 +19,15 @@ async function createEvent (num) {
 		          "sequence": 1, 
 		          "selectOptions":{ 
 		            "create": [
-		              { "name":"me" }, 
-		              { "name":"another me" }
+		              { "name":"yes" }, 
+		              { "name":"no" }
 		            ]
 		           }
 				},
 				{ 
 		          "name": "age", 
 		          "type": "number",
-		          "sequence": 2,
-		          "scores": {
-		          	create: [
-		          		{
-		          			name:'useless stuf',
-		          			player: {
-		          				connect: { id: players[0].id }
-		          			},
-		          			numberScore: 60
-		          		},
-		          		// {
-		          		// 	name:'useless stuf',
-		          		// 	player: {
-		          		// 		connect: {
-		          		// 			id: "648160efba00197a7718f3be"
-		          		// 		}
-		          		// 	},
-		          		// 	numberScore: 70
-		          		// }
-		          	]
-		          }
+		          "sequence": 2
 				}
 		      ]
 		    }
