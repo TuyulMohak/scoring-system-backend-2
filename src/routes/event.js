@@ -21,23 +21,15 @@ router.post('/', authenticateAdmin, service.postOneEvent)
 // update one event
 router.patch('/', authenticateAdmin, service.updateOneEvent)
 
-// event move up
-router.get('/move/up/:id/:sequence', authenticateAdmin, service.moveUpEvent)
-
-// event move down
-router.get('/move/down/:id/:sequence', authenticateAdmin, service.moveDownEvent)
 
 // get all events
 router.get('/', authenticateAdmin, service.getEvents)
-
-// delete one event
-router.delete('/:id', authenticateAdmin, service.deleteOneEvents)
-
 
 // get one event (WE'LL THINK MORE ABOUT THIS BEFORE WE IMPLEMENT)
 // I WANT MY EVENT TO RETURN DATA OF list of [ { playerId,rounds:[scores] }, { playerId,rounds:[scores] } ]
 router.get('/:id', authenticateAdmin, service.getOneEvent)
 
-
+// delete one event
+router.delete('/:id', authenticateAdmin, service.deleteOneEvents)
 
 export default router

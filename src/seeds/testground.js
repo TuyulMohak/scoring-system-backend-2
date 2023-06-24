@@ -10,7 +10,7 @@ async function createEvent (num) {
 		  "data": {
 		    "name": "SecondGeneratedEvent",
 			"desc": "this is starting event",
-			"sequence": 1 ,
+			"startDate": "NOW",
 			"rounds": {
 		      "create": [
 		        { 

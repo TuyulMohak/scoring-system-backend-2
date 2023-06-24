@@ -1,14 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-async function pGetMaxEventSequence() {
-	return await prisma.event.aggregate({
-		_max: {
-			sequence: true,
-		}
-	}) 
-}
-
 async function pCreateOneEvent(eventData) {
 	return await prisma.event.create({data: eventData})
 }
@@ -20,30 +12,6 @@ async function pUpdateOneEvent(id, data) {
 		},
 		// only able to accept string name & string desc
 		data: data
-	})
-}
-
-async function pGetTwoRowBefore (id, sequenceNum) {
-	return await prisma.event.findMany({
-		where: {
-		    id:{ equals: id },
-		    sequence: {
-		      lte: sequenceNum,
-		    },
-		},
-		take: 2
-	})
-}
-
-async function pGetTwoRowAfter (id, sequenceNum) {
-	return await prisma.event.findMany({
-		where: {
-			id:{ equals: id },
-		    sequence: {
-		      gte: sequenceNum,
-		    },
-		},
-		take: 2
 	})
 }
 
@@ -74,12 +42,9 @@ async function pGetOneEvent (id) {
 	})
 }
 
-export {
+export default {
 	pCreateOneEvent,
-	pGetMaxEventSequence,
 	pUpdateOneEvent,
-	pGetTwoRowBefore,
-	pGetTwoRowAfter,
 	pFindManyEvents,
 	pDeleteOneEvent,
 	pGetOneEvent
