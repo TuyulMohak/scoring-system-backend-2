@@ -17,8 +17,10 @@ enum Role {
 
 enum RoundType {
   text
+  textarea
   number
   select
+  datetime
 }
 
 
@@ -44,7 +46,6 @@ model Subdivision {
   players Player[]
 }
 
-
 model Player {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   playerName String
@@ -56,11 +57,13 @@ model Player {
   subdivision Subdivision @relation(fields: [subdivisionId], references: [id], onDelete: Cascade)
 }
 
+
+
 model Event {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
   desc String
-  sequence Int
+  startDate String
   rounds Round[]
 }
 
@@ -83,7 +86,7 @@ model SelectOption {
   roundId String @db.ObjectId
   
   round Round @relation(fields: [roundId], references: [id], onDelete: Cascade)
-} 
+}
 
 model Score {
   id String @id @default(auto()) @map("_id") @db.ObjectId

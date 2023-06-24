@@ -15,21 +15,22 @@ import service from '../services/round.js'
 
 // NOTE => MAKE SURE EVERY INPUT VALIDATED LATER
 
-// {data:{eventId, name, type, selectOptions?}}
 // post one round 
 router.post('/', authenticateAdmin, service.postOneRound)
 
+// event move up
+router.get('/move/up/:id/:sequence', authenticateAdmin, service.moveUpRound)
+
+// event move down
+router.get('/move/down/:id/:sequence', authenticateAdmin, service.moveDownRound)
+
+// delete one round
+router.delete('/:id', authenticateAdmin, service.deleteOneRound)
+
+
+
 // update one event (I THINK IT Will cause many other bugs, so don't)
 // router.patch('/', authenticateAdmin, service.updateOneRound)
-
-// // event move up
-// router.get('/move/up/:sequence', authenticateAdmin, service.moveUpEvent)
-
-// // event move down
-// router.get('/move/down/:sequence', authenticateAdmin, service.moveDownEvent)
-
-// delete one event
-router.delete('/:id', authenticateAdmin, service.deleteOneRound)
 
 
 export default router

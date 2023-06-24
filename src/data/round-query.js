@@ -13,6 +13,16 @@ async function pCreateOneRound (roundData) {
 	return await prisma.round.create({ data: roundData })
 }
 
+async function pUpdateOneRound(id, data) {
+	return await prisma.round.update({
+		where: {
+			id: id
+		},
+		// only able to accept string name & string desc
+		data: data
+	})
+}
+
 async function pDeleteOneRound (id) {
 	return await prisma.round.delete({
 		where: {
@@ -21,4 +31,28 @@ async function pDeleteOneRound (id) {
 	})
 }
 
-export default { pGetMaxRoundSequence, pCreateOneRound, pDeleteOneRound }
+async function pGetTwoRowBefore (id, sequenceNum) {
+	return await prisma.round.findMany({
+		where: {
+		    id:{ equals: id },
+		    sequence: {
+		      lte: sequenceNum,
+		    },
+		},
+		take: 2
+	})
+}
+
+async function pGetTwoRowAfter (id, sequenceNum) {
+	return await prisma.round.findMany({
+		where: {
+			id:{ equals: id },
+		    sequence: {
+		      gte: sequenceNum,
+		    },
+		},
+		take: 2
+	})
+}
+
+export default { pGetMaxRoundSequence, pCreateOneRound, pDeleteOneRound, pGetTwoRowAfter, pGetTwoRowBefore }
