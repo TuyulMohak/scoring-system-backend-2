@@ -18,19 +18,8 @@ import service from '../services/round.js'
 // post one round 
 router.post('/', authenticateAdmin, service.postOneRound)
 
-// event move up
-router.get('/move/up/:id/:sequence', authenticateAdmin, service.moveUpRound)
-
-// event move down
-router.get('/move/down/:id/:sequence', authenticateAdmin, service.moveDownRound)
-
 // delete one round
 router.delete('/:id', authenticateAdmin, service.deleteOneRound)
-
-
-
-// update one event (I THINK IT Will cause many other bugs, so don't)
-// router.patch('/', authenticateAdmin, service.updateOneRound)
 
 
 export default router

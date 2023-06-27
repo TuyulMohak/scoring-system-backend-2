@@ -14,13 +14,31 @@ const checkErrorFromValidate = (validationRes) => {
   return
 }
 
-
 async function postOneEvent(req, res) {
 	const validationRes = validationResult(req)
-	const { name, desc } = req.body.data
 	try {
+		const { name, desc, startDate, rounds } = req.body.data
+		const newRounds = { 
+			create: rounds.map(round => {
+				const newRound = {
+					name: round.name,
+					type: round.type,
+					sequence: round.sequence
+				}
+
+				if (round.hasOwnProperty('selectOptions')) {
+					const opts = { 
+						create: round.selectOptions.map(opt => {
+							return { name: opt.name }
+						})
+					}
+					newRound.selectOptions = opts
+				}
+				return newRound
+			})
+		}
 		checkErrorFromValidate(validationRes)
-		const eventPosted = await data.pCreateOneEvent({ name, desc })
+		const eventPosted = await data.pCreateOneEvent({ name, desc, startDate, rounds: newRounds })
 		res.status(200).json({ message:"Event Successfully Created", data: eventPosted })
 	} catch (err) {
 		res.status(err.status || 500).json(errorObj(err))
@@ -29,10 +47,11 @@ async function postOneEvent(req, res) {
 
 async function updateOneEvent (req, res) {
 	const validationRes = validationResult(req)
-	const { eventId, data } = req.body
 	try {
+		const eventId = req.params.id
+		const updateData = req.body.data
 		checkErrorFromValidate(validationRes)
-		const eventUpdated = await data.pUpdateOneEvent(eventId, data)
+		const eventUpdated = await data.pUpdateOneEvent(eventId, updateData)
 		res.status(200).json({ message:"Event Successfully Updated", data: eventUpdated })
 	} catch (err) {
 		res.status(err.status || 500).json(errorObj(err))
@@ -51,9 +70,9 @@ async function getEvents (req, res) {
 }
 
 async function getOneEvent (req, res) {
-	const eventId = req.params.id
 	const validationRes = validationResult(req)
 	try {
+		const eventId = req.params.id
 		checkErrorFromValidate(validationRes)
 		const event = await data.pGetOneEvent(eventId)
 		res.status(200).json( { data:event })
@@ -63,9 +82,9 @@ async function getOneEvent (req, res) {
 }
 
 async function deleteOneEvents(req, res) {
-	const eventId = req.params.id
 	const validationRes = validationResult(req)
 	try {
+		const eventId = req.params.id
 		checkErrorFromValidate(validationRes)
 		const event = await data.pDeleteOneEvent(eventId)
 		res.status(200).json( { message:`Event Successfully Deleted`, data:event } )
@@ -75,4 +94,4 @@ async function deleteOneEvents(req, res) {
 }
 
 
-export default { postOneEvent, updateOneEvent, moveUpEvent, moveDownEvent, getEvents, deleteOneEvents, getOneEvent }
+export default { postOneEvent, updateOneEvent, getEvents, deleteOneEvents, getOneEvent }

@@ -15,12 +15,11 @@ import service from '../services/event.js'
 
 // NOTE => MAKE SURE EVERY INPUT VALIDATED LATER
 
-// post one event 
+// post one event => data: { name, desc, startDate, rounds: { name, type, sequence, selectOptions? : [{ name}, {name}] }}
 router.post('/', authenticateAdmin, service.postOneEvent)
 
-// update one event
-router.patch('/', authenticateAdmin, service.updateOneEvent)
-
+// update one event (only able to update, name, desc, startDate)
+router.patch('/:id', authenticateAdmin, service.updateOneEvent)
 
 // get all events
 router.get('/', authenticateAdmin, service.getEvents)

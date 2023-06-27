@@ -7,10 +7,10 @@
   "scripts": {
     "test": "vitest",
     "dev": "nodemon index.js",
-    "seedAccount": "node src/seeds/AccountSeed",
+    "plantSeed": "node src/seeds/plant-seed",
     "vitest": "npx vitest run",
-    "removeSeedAccount": "node src/seeds/RemoveAccountSeed",
-    "integrationTest": "npm-run-all seedAccount vitest removeSeedAccount"
+    "removeSeed": "node src/seeds/remove-seed",
+    "integrationTest": "npm-run-all plantSeed vitest removeSeed"
   },
   "author": "Muhammad Rivandra",
   "license": "ISC",

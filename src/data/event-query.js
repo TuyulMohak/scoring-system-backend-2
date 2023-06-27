@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function pCreateOneEvent(eventData) {
-	return await prisma.event.create({data: eventData})
+	return await prisma.event.create({ data: eventData })
 }
 
 async function pUpdateOneEvent(id, data) {
@@ -35,7 +35,7 @@ async function pGetOneEvent (id) {
 		include: {
 			rounds: {
 				select: {
-					id: true, name: true, type: true, sequence: true, scores: true
+					id: true, name: true, type: true, sequence: true, scores: true, selectOptions: true
 				}
 			}
 		}

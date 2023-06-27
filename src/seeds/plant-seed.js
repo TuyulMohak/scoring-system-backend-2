@@ -1,9 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
-import { adminAccount, neoterAccounts } from './accounts.js'
-import divisions from './divisions.js'
-import { getPlayers } from './players.js'
+import { adminAccount, neoterAccounts } from './seed-data/accounts.js'
+import divisions from './seed-data/divisions.js'
+import { getPlayers } from './seed-data/players.js'
 
 async function main () {
 	try {
