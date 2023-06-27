@@ -5,27 +5,33 @@ import { adminAccount, neoterAccounts } from './seed-data/accounts.js'
 import divisions from './seed-data/divisions.js'
 import { getPlayers } from './seed-data/players.js'
 
+import events from './seed-data/events.js'
+
 async function main () {
 	try {
+		// Adding Accounts
 		await prisma.account.createMany({
 			data:[ adminAccount, ...neoterAccounts ]
 		})
 		console.log('Created Seeding Accounts for testing')
 
+		// Adding Divisions and Subdivisions
 		divisions.map(async (division) => {
 			await prisma.division.create(division)
 		})
 		console.log('Created Divisions and Subdivisions for testing')
 		
+		// adding players
 		const players = await getPlayers()
-		// const playerCreated = prisma.player.createMany({data: players})
+			// const playerCreated = prisma.player.createMany({data: players})
 		for (let i=0; i < players.length; i++) {
 			await prisma.player.create(players[i])
 		}
-		players.map(async (player) => {
-			await prisma.player.create(player)
-		})
 		console.log('Created Players for testing')
+
+		// Adding Events
+		await prisma.event.create(events)
+		console.log('Created Events for testing')
 
 		// create event with rounds + scores for some of the players
 
