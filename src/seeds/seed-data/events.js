@@ -15,12 +15,12 @@ const events = {
               { "name":"no" }
             ]
            }
-		},
-		{ 
-          "name": "age", 
-          "type": "number",
-          "sequence": 2
-		}
+    		},
+    		{ 
+              "name": "age", 
+              "type": "number",
+              "sequence": 2
+    		}
       ]
     }
   }
