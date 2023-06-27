@@ -63,7 +63,7 @@ async function getEvents (req, res) {
 	try {
 		checkErrorFromValidate(validationRes)
 		const events = await data.pFindManyEvents()
-		res.status(200).json({ data: events })
+		res.status(200).json({ message: "Success", data: events })
 	} catch (err) {
 		res.status(err.status || 500).json(errorObj(err))
 	}
@@ -75,7 +75,10 @@ async function getOneEvent (req, res) {
 		const eventId = req.params.id
 		checkErrorFromValidate(validationRes)
 		const event = await data.pGetOneEvent(eventId)
-		res.status(200).json( { data:event })
+		if(event === null) {
+			throw { status: 404, message: "Event not exist" }
+		}
+		res.status(200).json( { message: "Success", data:event })
 	} catch (err) {
 		res.status(err.status || 500).json(errorObj(err))
 	}

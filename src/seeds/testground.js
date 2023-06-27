@@ -34,5 +34,7 @@ async function createEvent (num) {
 		  }
 	})
 }
+
 const val = await createEvent()
+
 console.log(val)

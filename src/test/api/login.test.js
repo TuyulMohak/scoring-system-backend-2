@@ -25,7 +25,7 @@ describe('Login', () => {
 		
 		expect(userData.role).toBe("NEOTER")
 		expect(res.status).toBe(200)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	// checking authenticateAdmin:
@@ -35,19 +35,19 @@ describe('Login', () => {
 		const res = await request(app).get('/accounts/secret-admin').set("authorization", token)
 		
 		expect(res.status).toBe(401)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	test.concurrent('Not registered/not found user return 404', async () => {
 		const res = await request(app).post('/accounts/login').send(notRegisteredAccount)
 		expect(res.status).toBe(404)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	test.concurrent('Wrong format of username and or password return 400', async () => {
 		const res = await request(app).post('/accounts/login').send(badFormatAccount)
 		expect(res.status).toBe(400)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 30000)
 
 	test.concurrent('Correct username But wrong password return 400', async () => {

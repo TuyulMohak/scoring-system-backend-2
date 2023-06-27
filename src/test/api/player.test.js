@@ -8,7 +8,7 @@ import { pFindManyPlayers, pFindManySubdivisions } from '../../data/prisma-queri
 const adminToken = jwt.sign({ username:"admin", role:"ADMIN" }, process.env.ACCESS_TOKEN_SECRET)
 const players = await pFindManyPlayers()
 const subdivisions = await pFindManySubdivisions()
-console.log("this is the players:", players)
+// console.log("this is the players:", players)
 
 
 const playerToPost = { data: { playerName: 'newGuy', name:'randomTestingDude', subdivisionId:subdivisions[0].id} } //Post a new player 
@@ -22,7 +22,7 @@ describe('Player CRUD', () => {
 		expect(res.body.message).toBe("Player Successfully Created")
 		expect(res.body.data).toBeDefined()
 		expect(res.status).toBe(200)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	test.concurrent('Wrong format of player to post return 400', async () => {
@@ -37,7 +37,7 @@ describe('Player CRUD', () => {
 		expect(res.body.message).toBe("Player Successfully Updated")
 		expect(res.body.data).toBeDefined()
 		expect(res.status).toBe(200)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	test.concurrent('Get all players return status 200', async () => {
@@ -45,7 +45,7 @@ describe('Player CRUD', () => {
 		
 		expect(res.body.data).toBeDefined()
 		expect(res.status).toBe(200)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	test.concurrent('Get one players return status 200', async () => {
@@ -54,7 +54,7 @@ describe('Player CRUD', () => {
 		
 		expect(res.body.data).toBeDefined()
 		expect(res.status).toBe(200)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 
 	test.concurrent('Delete one players return status 200', async () => {
@@ -63,6 +63,6 @@ describe('Player CRUD', () => {
 		
 		expect(res.body.message).toBe("Player Successfully Deleted")
 		expect(res.status).toBe(200)
-		console.log(res.body)
+		// console.log(res.body)
 	}, 50000)
 })
