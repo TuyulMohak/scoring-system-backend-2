@@ -16,6 +16,7 @@ import service from '../services/round.js'
 // NOTE => MAKE SURE EVERY INPUT VALIDATED LATER
 
 // post one round 
+// { eventId, name, type, sequence, selectOptions?: ["yes", "no"]}
 router.post('/', authenticateAdmin, service.postOneRound)
 
 // delete one round

@@ -18,29 +18,23 @@ const checkErrorFromValidate = (validationRes) => {
 async function postOneRound(req, res) {
 	const validationRes = validationResult(req)
 
-	const { eventId, name, type, selectOptions } = req.body.data
+	const { eventId, name, type, selectOptions, sequence } = req.body.data
 	try {
 		checkErrorFromValidate(validationRes)
-		const maxSequence = await data.pGetMaxRoundSequence()
-		const sequence = maxSequence._max.sequence + 1
-		
-		let roundData = null
-		if(type === 'select') {
-			roundData = { 
+		let roundData = { 
 				event: { connect:{ id: eventId } }, 
 				name, 
 				type, 
-				sequence, 
-				selectOptions: { create: selectOptions } 
+				sequence
 			}
-		} else {
-			roundData = { 
-				event: { connect: { id:eventId } }, 
-				name, 
-				type, 
-				sequence 
-			}
-		}
+		if(type === 'select') {
+			roundData.selectOptions = { 
+				create: selectOptions.map(opt=> {
+					return { name: opt }
+				})
+			} 
+		} 
+
 		const roundPosted = await data.pCreateOneRound(roundData)
 		res.status(200).json({ message:"Round Successfully Created", data: roundPosted })
 	} catch (err) {
@@ -61,58 +55,4 @@ async function deleteOneRound(req, res) {
 	}
 }
 
-async function moveUpRound (req, res) {
-	const validationRes = validationResult(req)
-	const sequence = Number(req.params.sequence)
-	const roundId = req.params.id
-	try {
-		checkErrorFromValidate(validationRes)
-		const twoRowToSwap = await data.pGetTwoRowBefore(roundId, sequence)
-		if (twoRowToSwap.length === 0) {
-			throw { status:404, message:"No Round Exist on that Sequence Number" }
-		}
-		if (twoRowToSwap.length < 2) {
-			throw { status:403, message:"On top already" }
-		}
-		const first = twoRowToSwap[0]
-		const second = twoRowToSwap[1]
-
-		const updateFirst = await data.pUpdateOneRound(first.id, { sequence: second.sequence } )
-		const updateSecond = await data.pUpdateOneRound(second.id, { sequence: first.sequence } )
-
-		res.status(200).json({ message:"Event Successfully Swapped", data:[ updateFirst, updateSecond ] })
-	} catch (err) {
-		console.log(err)
-		res.status(err.status || 500).json(errorObj(err))
-	}
-}
-
-async function moveDownRound (req, res) {
-	const roundId = req.params.id
-	const validationRes = validationResult(req)
-	const sequence = Number(req.params.sequence)
-	try {
-		checkErrorFromValidate(validationRes)
-		const twoRowToSwap = await data.pGetTwoRowAfter(roundId, sequence)
-		
-		if (twoRowToSwap.length === 0) {
-			throw { status:404, message:"No Event Exist on that Sequence Number" }
-		}
-		if (twoRowToSwap.length < 2) {
-			throw { status:403, message:"On bottom already" }
-		}
-		const first = twoRowToSwap[0]
-		const second = twoRowToSwap[1]
-
-		const updateFirst = await data.pUpdateOneRound(first.id, { sequence: second.sequence } )
-		const updateSecond = await data.pUpdateOneRound(second.id, { sequence: first.sequence } )
-
-		res.status(200).json({ message:"Event Successfully Swapped", data:[ updateFirst, updateSecond ] })
-	} catch (err) {
-		console.log(err)
-		res.status(err.status || 500).json(errorObj(err))
-	}
-}
-
-
-export default { postOneRound, deleteOneRound, moveUpRound, moveDownRound }
+export default { postOneRound, deleteOneRound }
