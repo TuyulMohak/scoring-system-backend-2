@@ -23,7 +23,7 @@ router.post('/', authenticateAdmin, service.postOneEvent)
 router.patch('/:id', authenticateAdmin, service.updateOneEvent)
 
 // get all events
-router.get('/', authenticateAdmin, service.getEvents)
+router.get('/', authenticateAccount, service.getEvents)
 
 // get one event (WE'LL THINK MORE ABOUT THIS BEFORE WE IMPLEMENT)
 // Must Return [ { playerId,rounds:[scores] }, { playerId, rounds:[scores] } ]
