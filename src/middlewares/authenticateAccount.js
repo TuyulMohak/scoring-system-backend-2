@@ -8,7 +8,8 @@ async function authenticateAccount (req, res, next) {
       throw { status: 401, messsage: "You don't have any token" }
     }
     const account = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
-    if (account.role !== "ADMIN" || account.role !== "NEOTER") {
+
+    if (account.role !== "ADMIN" && account.role !== "NEOTER") {
       throw { status: 401, messsage: "You're Not Authorized" }
     }
     req.account = account

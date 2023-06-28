@@ -119,6 +119,7 @@ async function getOneEvent (req, res) {
 		// get all the players
 		let players = await pFindManyPlayers()
 		// THIS IS HIGHLY INNEFICIENT, REFACTOR
+		// There are a lot of unnecessary loop on the newScores.map
 		const newPlayers = players.map((player) => {
 			newScores.map((score) => {
 				console.log(player.id === score.playerId)

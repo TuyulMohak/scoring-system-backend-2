@@ -2,6 +2,7 @@ import express from 'express'
 const router = express.Router()
 
 import authenticateAdmin from '../middlewares/authenticateAdmin.js'
+import authenticateAccount from '../middlewares/authenticateAccount.js'
 import { check } from 'express-validator'
 import service from '../services/event.js'
 
@@ -26,7 +27,7 @@ router.get('/', authenticateAdmin, service.getEvents)
 
 // get one event (WE'LL THINK MORE ABOUT THIS BEFORE WE IMPLEMENT)
 // Must Return [ { playerId,rounds:[scores] }, { playerId, rounds:[scores] } ]
-router.get('/:id', authenticateAdmin, service.getOneEvent)
+router.get('/:id', authenticateAccount, service.getOneEvent)
 
 // delete one event
 router.delete('/:id', authenticateAdmin, service.deleteOneEvents)
