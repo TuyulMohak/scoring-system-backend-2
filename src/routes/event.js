@@ -25,7 +25,7 @@ router.patch('/:id', authenticateAdmin, service.updateOneEvent)
 router.get('/', authenticateAdmin, service.getEvents)
 
 // get one event (WE'LL THINK MORE ABOUT THIS BEFORE WE IMPLEMENT)
-// I WANT MY EVENT TO RETURN DATA OF list of [ { playerId,rounds:[scores] }, { playerId,rounds:[scores] } ]
+// Must Return [ { playerId,rounds:[scores] }, { playerId, rounds:[scores] } ]
 router.get('/:id', authenticateAdmin, service.getOneEvent)
 
 // delete one event

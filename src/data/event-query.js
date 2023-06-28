@@ -35,7 +35,12 @@ async function pGetOneEvent (id) {
 		include: {
 			rounds: {
 				select: {
-					id: true, name: true, type: true, sequence: true, scores: true, selectOptions: true
+					id: true, 
+					name: true, 
+					type: true, 
+					sequence: true, 
+					selectOptions: true, 
+					scores: true,
 				}
 			}
 		}
